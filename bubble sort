@@ -1,0 +1,14 @@
+class Solution:
+def bubble_sort_optimized(arr: List[int]) -> None:
+    n = len(arr) 
+    for i in range(n):
+        swapped = False  # флаг, был ли обмен на этом проходе
+        #проходит по массиву до уже отсортированной части
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                #если элементы в неправильном порядке, меняет их местами
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        #если за весь проход не было обменов, массив уже отсортирован
+        if not swapped:
+            break
