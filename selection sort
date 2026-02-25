@@ -1,0 +1,12 @@
+class Solution:
+def selection_sort(arr: List[int]) -> None:
+    n = len(arr)
+    for i in range(n):
+        #предполагает, что текущий индекс - минимальный
+        min_index = i
+        #ищет настоящий минимум в оставшейся части массива
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        #если нашел элемент меньше, меняет местами
+        arr[i], arr[min_index] = arr[min_index], arr[i]
