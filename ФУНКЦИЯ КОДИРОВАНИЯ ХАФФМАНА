@@ -1,0 +1,42 @@
+class Solution:
+    def __init__(self, char=None, freq=0):
+        self.char = char      #символ
+        self.freq = freq      #частота
+        self.left = None
+        self.right = None
+    #для работы heapq 
+    def __lt__(self, other):
+        return self.freq < other.freq
+def huffman_encoding(text: str):
+    if not text:
+        return "", {}
+    #считает частоты символов
+    freq = Counter(text)
+    #создаёт кучу из узлов
+    heap = [Node(char, f) for char, f in freq.items()]
+    heapq.heapify(heap)
+    #строит дерево
+    while len(heap) > 1:
+        left = heapq.heappop(heap)   #минимальный
+        right = heapq.heappop(heap)  #второй минимальный
+        merged = Node(freq=left.freq + right.freq)
+        merged.left = left
+        merged.right = right
+        heapq.heappush(heap, merged)
+    #корень дерева
+    root = heap[0]
+    #строит коды
+    codes = {}
+    def build_codes(node, code):
+        if node is None:
+            return
+        #если лист, то записывает код
+        if node.char is not None:
+            codes[node.char] = code
+            return
+        build_codes(node.left, code + "0")
+        build_codes(node.right, code + "1")
+    build_codes(root, "")
+    #кодирует строку
+    encoded = "".join(codes[ch] for ch in text)
+    return encoded, codes
